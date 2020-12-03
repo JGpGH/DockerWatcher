@@ -1,8 +1,0 @@
-{
-    "containers": [
-        {
-            "name": "empriseTS",
-            "onExit":"echo $error > $date.txt"
-        }
-    ]
-}
