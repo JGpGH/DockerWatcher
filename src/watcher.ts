@@ -34,7 +34,7 @@ export default class Watcher {
         const fileName = `${this.config.name}-${currentDate.getMonth()}-${currentDate.getDate()}`
         const fpath = path.join(this.config.logFileDir || ".", fileName)
         fs.stat(fpath, (err, stats) => {
-            if(err) {
+            if(!stats) {
                 fs.writeFile(fpath, data, {flag: 'wx'}, (err)=> {
                     if(err){
                         console.log("error writing  file")
