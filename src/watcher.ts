@@ -13,8 +13,9 @@ export default class Watcher {
         this.logsProcess.stdout.on('data', this.OutHandler.bind(this));
         this.logsProcess.stderr.on('data', this.OutHandler.bind(this));
         setInterval(()=> {
-            this.inspect();
-            this.checkRunningStatus();
+            this.inspect().then(() => {
+                this.checkRunningStatus();
+            })
         }, this.config.refreshTime || 1000);
     }
 
@@ -29,14 +30,17 @@ export default class Watcher {
         }
     }
 
-    inspect() {
-        let inspection = spawnModule.exec(`docker container inspect ${this.config.name}`,
-        (error, stdout, stderr)=> {
-            if(inspection.exitCode === 0) {
-                this.info = JSON.parse(stdout)
-            } else {
-                console.error('no such container ', this.config.name)
-            }
+    inspect(): Promise<null> {
+        return new Promise((done, err) => {
+            let inspection = spawnModule.exec(`docker container inspect ${this.config.name}`,
+            (error, stdout, stderr)=> {
+                if(inspection.exitCode === 0) {
+                    this.info = JSON.parse(stdout)
+                    done(null);
+                } else {
+                    console.error('no such container ', this.config.name)
+                }
+            })
         })
     }
 
