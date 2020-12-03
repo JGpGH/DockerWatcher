@@ -35,7 +35,7 @@ export default class Watcher {
             let inspection = spawnModule.exec(`docker container inspect ${this.config.name}`,
             (error, stdout, stderr)=> {
                 if(inspection.exitCode === 0) {
-                    this.info = JSON.parse(stdout)
+                    this.info = JSON.parse(stdout)[0]
                     done(null);
                 } else {
                     console.error('no such container ', this.config.name)
