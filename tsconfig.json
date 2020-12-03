@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es5",                          /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
+    "lib": ["es6"],
+    "module": "commonjs",                    /* Specify library files to be included in the compilation. */
+    "allowJs": true,                       /* Allow javascript files to be compiled. */
+    "checkJs": true,                      /* Concatenate and emit output to single file. */
+    "outDir": "./build",                        /* Redirect output structure to the directory. */
+    "rootDir": "./src",
+    "strict": true,                           /* Enable all strict type-checking options. */
+    "noImplicitAny": true,
+    "esModuleInterop": true,      
+    "skipLibCheck": true,                     /* Skip type checking of declaration files. */
+  },
+  "include": [
+    "src/**/*"
+  ]
+}
