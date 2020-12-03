@@ -16,13 +16,9 @@ export default class Watcher {
     }
 
     inspect() {
-        let inspection = spawnModule.spawn('docker', ['container', 'inspect', this.config.name])
-        inspection.on('exit', (code) => {
-            if(code === 0 ) {
-                console.log(inspection.stdout.read())
-            } else {
-                console.error(this.config.name, " is dead")
-            }
+        let inspection = spawnModule.exec(`docker container inspect ${this.config.name}`,
+        (error, stdout, stderr)=> {
+            console.log(stdout);
         })
     }
 
