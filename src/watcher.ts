@@ -36,11 +36,12 @@ export default class Watcher {
         fs.stat(fpath, (err, stats) => {
             if(err) {
                 fs.writeFile(fpath, data, (err)=> {if(err)console.error(err)})
-            }
-            if(stats.isFile()) {
-                fs.appendFile(fpath, data, (err) => {if(err)console.error(err)})
             } else {
-                fs.writeFile(fpath, data, (err)=> {if(err)console.error(err)})
+                if(stats.isFile()) {
+                    fs.appendFile(fpath, data, (err) => {if(err)console.error(err)})
+                } else {
+                    fs.writeFile(fpath, data, (err)=> {if(err)console.error(err)})
+                }
             }
         })
     }
