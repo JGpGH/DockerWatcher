@@ -9,8 +9,8 @@ export default class Watcher {
         if(config.verbose) {
             this.outCallStack.push(function(data: string){console.log(`${config.name}: ${data}`)});
         }
-        this.process.stdout.on('data', this.OutHandler);
-        this.process.stderr.on('data', this.OutHandler);
+        this.process.stdout.on('data', this.OutHandler.bind(this));
+        this.process.stderr.on('data', this.OutHandler.bind(this));
     }
 
     OutHandler(data: string) {
