@@ -33,7 +33,9 @@ export default class Watcher {
         const currentDate = new Date();
         const fileName = `${this.config.name}-${currentDate.getMonth()}-${currentDate.getDate()}`
         const fpath = path.join(this.config.logFileDir || ".", fileName) 
-        fs.appendFile(fpath, data, function(){})
+        fs.appendFile(fpath, data, (err) => {
+            console.error(err);
+        })
     }
 
     checkRunningStatus() {
