@@ -32,9 +32,13 @@ export default class Watcher {
     writeToLogFile(data: string) {
         const currentDate = new Date();
         const fileName = `${this.config.name}-${currentDate.getMonth()}-${currentDate.getDate()}`
-        const fpath = path.join(this.config.logFileDir || ".", fileName) 
-        fs.appendFile(fpath, data, (err) => {
-            console.error(err);
+        const fpath = path.join(this.config.logFileDir || ".", fileName)
+        fs.stat(fpath, (err, stats) => {
+            if(stats.isFile()) {
+                fs.appendFile(fpath, data, (err) => {if(err)console.error(err)})
+            } else {
+                fs.writeFile(fpath, data, (err)=> {if(err)console.error(err)})
+            }
         })
     }
 
