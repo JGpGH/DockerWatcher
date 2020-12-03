@@ -34,6 +34,10 @@ export default class Watcher {
         const fileName = `${this.config.name}-${currentDate.getMonth()}-${currentDate.getDate()}`
         const fpath = path.join(this.config.logFileDir || ".", fileName)
         fs.stat(fpath, (err, stats) => {
+            if(err) {
+                console.error(err);
+                return
+            }
             if(stats.isFile()) {
                 fs.appendFile(fpath, data, (err) => {if(err)console.error(err)})
             } else {
