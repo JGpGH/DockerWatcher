@@ -12,13 +12,31 @@ export default class Watcher {
         }
         this.logsProcess.stdout.on('data', this.OutHandler.bind(this));
         this.logsProcess.stderr.on('data', this.OutHandler.bind(this));
-        this.inspect()
+        setInterval(()=> {
+            this.inspect();
+            this.checkRunningStatus();
+        }, this.config.refreshTime || 1000);
+    }
+
+    checkRunningStatus() {
+        if(this.info["State"]["Status"] !== "running") {
+            if(this.config.onExit) {
+                spawnModule.exec(this.config.onExit)
+            }
+            if(this.config.verbose) {
+                console.log(this.config.name, " has ended")
+            }
+        }
     }
 
     inspect() {
         let inspection = spawnModule.exec(`docker container inspect ${this.config.name}`,
         (error, stdout, stderr)=> {
-            console.log(stdout);
+            if(inspection.exitCode === 0) {
+                this.info = JSON.parse(stdout)
+            } else {
+                console.error('no such container ', this.config.name)
+            }
         })
     }
 
