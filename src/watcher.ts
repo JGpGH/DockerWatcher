@@ -25,8 +25,12 @@ export default class Watcher {
         this.inspectionProcess = setInterval(()=> {
             this.inspect().then(() => {
                 this.checkRunningStatus();
+            }).catch(() => {
+                if(this.config.onExit) {
+                    spawnModule.exec(this.config.onExit)
+                }
             })
-        }, this.config.refreshTime || 1000);
+        }, this.config.refreshTime || 5000);
     }
 
     writeToLogFile(data: string) {
@@ -71,6 +75,7 @@ export default class Watcher {
                     done(null);
                 } else {
                     console.error('container ', this.config.name, ' not active')
+                    err(null);
                 }
             })
         })
